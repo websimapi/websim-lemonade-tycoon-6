@@ -1,3 +1,5 @@
+import { showScreen, hideScreen } from './ui.js';
+
 const LOCAL_STORAGE_KEY = 'lemonade_tycoon_presets';
 
 export class PresetManager {
@@ -131,8 +133,15 @@ export class PresetManager {
         }
         
         if (targetPreset) {
+            // Apply preset to the editor in the background
             this.applyPresetCallback(targetPreset, this.elements);
-            this.elements.backToEditorFromPresetsBtn.click(); // Go back to editor
+            
+            // Set the image on the result screen
+            this.elements.generatedCharacterImage.src = targetPreset.previewImageUrl;
+            
+            // Hide presets screen and show result screen
+            hideScreen(this.elements.presetsScreen);
+            showScreen(this.elements.generationResultScreen);
         } else {
             console.error('Preset not found:', presetId);
         }
